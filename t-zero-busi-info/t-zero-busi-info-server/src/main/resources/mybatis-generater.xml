@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="/Users/davinzhang/.m2/repository/mysql/mysql-connector-java/8.0.25/mysql-connector-java-8.0.25.jar" />
+    <context id="MySQLTables" targetRuntime="MyBatis3">
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter" />
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter" />
+        <property name="javaFileEncoding" value="UTF-8" />
+
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+        <!-- 配置生成自定义的类序列化接口的插件 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://124.220.79.157:3306/dalu-test?serverTimezone=UTC" userId="dalu-test" password="Ybl159263.">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="useJSR310Types" value="true" />
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.t.zero.b.i.pump.db.model.auto" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="auto-mappers" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.t.zero.b.i.pump.db.dao.auto" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+
+        <table schema="test" tableName="projectheader" domainObjectName="ProjectHeader">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        <table schema="test" tableName="projectinfo" domainObjectName="ProjectInfo">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        <table schema="test" tableName="units" domainObjectName="Units">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        
+        <table schema="test" tableName="project_remark" domainObjectName="ProjectRemark">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        
+        
+    </context>
+</generatorConfiguration>	

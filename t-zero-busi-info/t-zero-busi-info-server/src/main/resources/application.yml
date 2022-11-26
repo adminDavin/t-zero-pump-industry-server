@@ -1,0 +1,82 @@
+server:
+   address: null
+   port: 10100
+logging.level:
+   com.t.zero: info
+   com.t.zero.user.operation.dao: debug
+springfox:
+   documentation:
+      auto-startup: false
+spring:
+   jackson:
+      date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+      time-zone: GMT
+      default-property-inclusion: non_null
+   application.name: user-operation
+   redis:
+      host: t-zero-redis.com
+      port: 16379
+      password: tzero-davin!
+   cloud:
+      consul:
+         host: t-zero-consol.com
+         port: 8500
+         discovery:
+            register: true
+   rabbitmq:
+      host: t-zero-rabbitmq.com
+      port: 5672
+      username: tzero
+      password: tzeroiup
+      virtual-host: v_design_iups
+   datasource:
+      name: dataSource
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:mysql://124.220.79.157:3306/dalu-test?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
+      username: dalu-test
+      password: Ybl159263.
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      hikari:
+         connection-test-query: select now()
+         idle-timeout: 3000000
+         auto-commit: true
+         max-lifetime: 1200000
+         maximum-pool-size: 60
+         minimum-idle: 10
+         login-timeout: 5
+         validation-timeout: 300000
+         connection-timeout: 600000000
+         read-only: false
+   messages:
+      encoding: UTF-8
+      basename: i18n/messages
+      cache-second: 3600
+springfox.documentation.swagger-ui.enabled: true
+mybatis:
+   configuration:
+      ocal-cache-scope: statement
+   mapper-locations:
+   - auto-mappers/*.xml
+   - manual-mappers/*.xml
+queues:
+   direct:
+      message.center:
+         sms:
+            name: 短信验证码
+            exchange: exchange.message.center
+            queue: queue.message.center.sms
+            routing-key: message.center.sms
+account:
+   product.code: UNDERGROUND_GARAGE
+   product.num: 2
+
+management:
+   endpoints:
+      web:
+         exposure:
+            include: "prometheus,health"
+         endpoint:
+            metrics:
+              enabled:
+               tags:
+                  application: ${spring.application.name}

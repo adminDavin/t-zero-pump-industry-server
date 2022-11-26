@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>t.zero.employee.information</groupId>
+    <artifactId>t-zero-employee-information</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>t.zero.employee.information.basic</groupId>
+  <artifactId>t-zero-basic</artifactId>
+  <packaging>pom</packaging>
+  <description>公共基础组建包</description>
+  <modules>
+  	<module>t-zero-basic-common</module>
+  	<module>t-zero-basic-config-dubbo</module>
+  	<module>t-zero-basic-config-mysql</module>
+  	
+  	<module>t-zero-basic-config-register</module>
+  	<module>t-zero-basic-config-noregister</module>
+  </modules>
+</project>
