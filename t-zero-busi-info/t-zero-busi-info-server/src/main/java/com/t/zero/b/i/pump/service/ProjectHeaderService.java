@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.base.Objects;
 import com.t.zero.b.i.pump.db.dao.auto.ProjectHeaderMapper;
 import com.t.zero.b.i.pump.db.dao.auto.ProjectInfoMapper;
 import com.t.zero.b.i.pump.db.dao.auto.ProjectRemarkMapper;
@@ -21,7 +20,6 @@ import com.t.zero.b.i.pump.db.dao.auto.UnitsMapper;
 import com.t.zero.b.i.pump.db.dao.filters.ProjectHeaderFilters;
 import com.t.zero.b.i.pump.db.dao.manual.ManualProjectHeaderMapper;
 import com.t.zero.b.i.pump.db.model.auto.ProjectHeader;
-import com.t.zero.b.i.pump.db.model.auto.ProjectHeaderExample;
 import com.t.zero.b.i.pump.db.model.auto.ProjectInfoExample;
 import com.t.zero.b.i.pump.db.model.auto.ProjectRemark;
 import com.t.zero.b.i.pump.db.model.auto.ProjectRemarkExample;
@@ -31,7 +29,6 @@ import com.t.zero.b.i.pump.utils.ExcelParser;
 import com.t.zero.basic.common.base.contants.TZeroConstants;
 import com.t.zero.basic.common.base.page.Page;
 import com.t.zero.basic.common.base.request.CommonParams;
-import com.t.zero.basic.common.exception.TZeroException;
 
 @Service
 public class ProjectHeaderService {
@@ -61,6 +58,8 @@ public class ProjectHeaderService {
 		var b = ProjectHeaderFilters.builder();
 		b.userId(params.getUserId());
 		b.tenantId(params.getTenantId());
+		b.groupId(content.has("groupId") ? content.get("groupId").asInt() : null);
+
 		if (content.has("showAll")) {
 			b.userId(content.has("userId") ? content.get("userId").asText() : "0");
 		}
@@ -70,35 +69,25 @@ public class ProjectHeaderService {
 		return page;
 	}
 
-	public ProjectHeader getBudgetnumber(CommonParams params, String budgetnumber) {
-		var example = new ProjectHeaderExample();
-		example.createCriteria().andTenantIdEqualTo(params.getTenantId()).andBudgetnumberEqualTo(budgetnumber);
-		example.setOrderByClause("updated_time desc");
-		var res = projectHeaderMapper.selectByExample(example);
-		return CollectionUtils.isEmpty(res) ? null : res.get(0);
-	}
-
 	public Object createOrModify(CommonParams params, ObjectNode content) {
 		var t = mapper.convertValue(content, ProjectHeader.class);
-		var temp = getBudgetnumber(params, t.getBudgetnumber());
-		if (ObjectUtils.isEmpty(t.getId()) && ObjectUtils.isNotEmpty(temp)) {
-			throw new TZeroException("位号不可以重复");
-		}
-		if (ObjectUtils.isNotEmpty(temp)) {
-			t.setId(temp.getId());
-		}
-		if (ObjectUtils.isEmpty(t.getId())) {
-			t.setCreatedTime(LocalDateTime.now());
-		}
 		t.setUpdatedTime(LocalDateTime.now());
 		t.setTenantId(params.getTenantId());
 		t.setDeletedFlag(TZeroConstants.NORMAL);
 		t.setUserId(params.getUserId());
 
-		if (ObjectUtils.isEmpty(t.getId())) {
-			projectHeaderMapper.insert(t);
+		if (ObjectUtils.isNotEmpty(t.getId())) {
+			var temp = projectHeaderMapper.selectByPrimaryKey(t.getId());
+			if (ObjectUtils.isNotEmpty(temp)) {
+				t.setId(temp.getId());
+			}
+			projectHeaderMapper.updateByPrimaryKeySelective(t);
 			return t.getId();
 		} else {
+			t.setCreatedTime(LocalDateTime.now());
+			t.setBudgetnumber(String.valueOf(t.getGroupId()));
+			projectHeaderMapper.insert(t);
+			t.setBudgetnumber(String.valueOf(t.getGroupId()) + "_" + String.valueOf(t.getId()));
 			projectHeaderMapper.updateByPrimaryKeySelective(t);
 			return t.getId();
 		}

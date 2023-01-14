@@ -3,7 +3,7 @@ server:
    port: 10100
 logging.level:
    com.t.zero: info
-   com.t.zero.user.operation.dao: debug
+   com.t.zero.b.i.pump.db.dao: debug
 springfox:
    documentation:
       auto-startup: false
@@ -32,9 +32,9 @@ spring:
    datasource:
       name: dataSource
       type: com.zaxxer.hikari.HikariDataSource
-      url: jdbc:mysql://124.220.79.157:3306/dalu-test?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
-      username: dalu-test
-      password: Ybl159263.
+      url: jdbc:mysql://t-zero-mysql.com:3306/xinghe?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true
+      username: t_zero
+      password: tZeroDavin!123
       driver-class-name: com.mysql.cj.jdbc.Driver
       hikari:
          connection-test-query: select now()

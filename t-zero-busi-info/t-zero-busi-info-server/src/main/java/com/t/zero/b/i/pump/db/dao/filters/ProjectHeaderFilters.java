@@ -15,4 +15,5 @@ import lombok.experimental.SuperBuilder;
 public class ProjectHeaderFilters {
 	private String userId;
 	public Integer tenantId;
+	public Integer groupId;
 }

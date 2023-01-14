@@ -57,7 +57,7 @@ startup() {
         CLASSPATH=${CLASSPATH}:${application_jar}
     done
     cd "${T_ZERO_UNDERGROUND_GARAGE_HOME}"
-    JAVA_OPTS="-server -Xms128M -Xmx512M"
+    JAVA_OPTS="-server -Xms512M -Xmx512M"
     JAVA_OPTS=" $JAVA_OPTS -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Djasypt.encryptor.password=${JASYPT_ENCRYPTOR_PASSWORD}"
     JAVA_DEBUG_OPT=""
     CLASSPATH="${T_ZERO_UNDERGROUND_GARAGE_HOME}/conf:${CLASSPATH}"

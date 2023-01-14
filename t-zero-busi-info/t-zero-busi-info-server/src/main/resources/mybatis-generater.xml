@@ -14,7 +14,7 @@
         <!-- 配置生成自定义的类序列化接口的插件 -->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
 
-        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://124.220.79.157:3306/dalu-test?serverTimezone=UTC" userId="dalu-test" password="Ybl159263.">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://39.106.63.176:3306/xinghe?serverTimezone=UTC" userId="t_zero" password="tZeroDavin!123">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -36,27 +36,61 @@
         </javaClientGenerator>
 
 
-        <table schema="test" tableName="projectheader" domainObjectName="ProjectHeader">
+        <table schema="xinghe" tableName="projectheader" domainObjectName="ProjectHeader">
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
-        <table schema="test" tableName="projectinfo" domainObjectName="ProjectInfo">
+        <table schema="xinghe" tableName="projectinfo" domainObjectName="ProjectInfo">
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
-        <table schema="test" tableName="units" domainObjectName="Units">
+        <table schema="xinghe" tableName="units" domainObjectName="Units">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        <table schema="xinghe" tableName="pump_info" domainObjectName="PumpInfo">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        <table schema="xinghe" tableName="pump_attributes" domainObjectName="PumpAttributes">
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
         
-        <table schema="test" tableName="project_remark" domainObjectName="ProjectRemark">
+        <table schema="xinghe" tableName="pump_fa_lan_info" domainObjectName="PumpFaLanInfo">
             <property name="useActualColumnNames" value="false" />
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
+        <table schema="xinghe" tableName="pump_forces_and_moments" domainObjectName="PumpForcesAndMoments">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        
+        <table schema="xinghe" tableName="project_remark" domainObjectName="ProjectRemark">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        <table schema="xinghe" tableName="pump_export_dxf_config" domainObjectName="PumpExportDxfConfig">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        
+        <table schema="xinghe" tableName="pump_export_dxf_template" domainObjectName="PumpExportDxfTemplate">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        
+        
         
         
     </context>
