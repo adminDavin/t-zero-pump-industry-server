@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.t.zero.b.i.pump.service.PumpFaLanInfoService;
+import com.t.zero.b.i.pump.service.PumpForcesAndMomentsService;
 import com.t.zero.basic.common.base.contants.RequestConstants;
 import com.t.zero.basic.common.base.contants.RequestConstants.Header;
 import com.t.zero.basic.common.base.controller.TZeroBasicController;
@@ -20,9 +20,9 @@ import com.t.zero.basic.component.response.ResponseExceptionHandler;
 @RestController
 @RequestMapping("/pump_forces_and_moments")
 public class PumpForcesAndMomentsController extends TZeroBasicController {
-	private final PumpFaLanInfoService pumpAttributesService;
+	private final PumpForcesAndMomentsService pumpAttributesService;
 
-	public PumpForcesAndMomentsController(ResponseExceptionHandler responseExceptionHandler, PumpFaLanInfoService pumpAttributesService) {
+	public PumpForcesAndMomentsController(ResponseExceptionHandler responseExceptionHandler, PumpForcesAndMomentsService pumpAttributesService) {
 		super(responseExceptionHandler);
 		this.pumpAttributesService = pumpAttributesService;
 	}
