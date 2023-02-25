@@ -105,6 +105,11 @@
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
+        <table schema="xinghe" tableName="busi_pump_info" domainObjectName="BusiPumpInfo">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
         
         
         

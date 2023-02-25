@@ -41,6 +41,12 @@ public class PumpInformationService {
 		return page;
 	}
 	
+
+	public Object get(CommonParams build, ObjectNode content) {
+		return PumpInformationVo.convert(mapper, pumpInformationMapper.selectByPrimaryKey(content.get("id").asInt()));
+	}
+	
+	
 	public Object createOrModify(CommonParams params, ObjectNode content) {
 		var t = mapper.convertValue(content, PumpInformationVo.class).convert();
 		t.setUpdatedTime(LocalDateTime.now());
@@ -72,5 +78,5 @@ public class PumpInformationService {
 		r.put("action", "deletecontent");
 		return r;
 	}
-	
+
 }

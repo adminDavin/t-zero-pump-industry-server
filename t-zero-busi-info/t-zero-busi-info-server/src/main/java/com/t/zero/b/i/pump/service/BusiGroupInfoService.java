@@ -2,6 +2,7 @@ package com.t.zero.b.i.pump.service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
@@ -53,8 +54,15 @@ public class BusiGroupInfoService {
 	public Object get(String majorKey, String pumpSource) {
 		var e = new BusiGroupInfoExample();
 		e.createCriteria().andMajorKeyEqualTo(majorKey).andPumpSourceEqualTo(pumpSource);
-		var list = busiGroupInfoMapper.selectByExample(e);
+		var list = busiGroupInfoMapper.selectByExampleWithBLOBs(e);
 		return CollectionUtils.isNotEmpty(list) ? BusiGroupInfoVo.convert(mapper, list.get(0)): BusiGroupInfoVo.build(mapper);
+	}
+	
+	public Object multiGet(ObjectNode content) {
+		var e = new BusiGroupInfoExample();
+		var majorKey = Arrays.asList(mapper.convertValue(content.get("majorKey"), String[].class));
+		e.createCriteria().andMajorKeyIn(majorKey).andPumpSourceEqualTo(content.get("pumpSource").asText());
+		return busiGroupInfoMapper.selectByExampleWithBLOBs(e).stream().map(i -> BusiGroupInfoVo.convert(mapper, i)).collect(Collectors.toList());
 	}
 
 	public Object delete(CommonParams params, ObjectNode content) {
@@ -66,5 +74,7 @@ public class BusiGroupInfoService {
 		r.put("action", "deletecontent");
 		return r;
 	}
+
+
 
 }

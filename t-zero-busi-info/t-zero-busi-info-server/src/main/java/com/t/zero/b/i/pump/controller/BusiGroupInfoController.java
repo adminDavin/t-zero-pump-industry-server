@@ -39,6 +39,15 @@ public class BusiGroupInfoController extends TZeroBasicController {
 		}
 	}
 	
+	@PostMapping(value = "/multi_get", produces = RequestConstants.CONTENT_TYPE_JSON)
+	public ResponseResult<Object> multiGet(@RequestBody ContentRequest content) {
+		try {
+			return ResponseResult.ok(busiGroupInfoService.multiGet(content.getContent()));
+		} catch (Exception e) {
+			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
+		}
+	}
+	
 	
 	@PostMapping(value = "/createOrModify", produces = RequestConstants.CONTENT_TYPE_JSON)
 	public ResponseResult<Object> modify(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,

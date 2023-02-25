@@ -70,8 +70,6 @@
    <select id="selectListWithPageByFilter" resultMap="ResultMapWithBLOBs">
   	SELECT
 	<include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from pump_information o
 	WHERE
 	    o.is_deleted = 0
@@ -84,6 +82,17 @@
   <select id="selectCountWithPageByFilter" resultType="java.lang.Long">
   	SELECT
 	count(id)
+    from pump_information o
+	WHERE
+	    o.is_deleted = 0
+	    <if test="filters.pumpSource != null">
+	        and o.pump_source=#{filters.pumpSource}
+	    </if>
+  </select>
+  
+  <select id="selectDistinctPumpNameByPumpSource" resultType="String">
+  	SELECT
+	distinct pump_name
     from pump_information o
 	WHERE
 	    o.is_deleted = 0
