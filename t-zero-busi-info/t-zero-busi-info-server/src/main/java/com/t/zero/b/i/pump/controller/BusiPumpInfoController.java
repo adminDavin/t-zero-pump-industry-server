@@ -2,15 +2,12 @@ package com.t.zero.b.i.pump.controller;
 
 import static com.t.zero.basic.common.base.contants.TZeroMethodConstants.LIST;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.t.zero.b.i.pump.service.BusiGroupInfoService;
 import com.t.zero.b.i.pump.service.BusiPumpInfoService;
 import com.t.zero.basic.common.base.contants.RequestConstants;
 import com.t.zero.basic.common.base.contants.RequestConstants.Header;

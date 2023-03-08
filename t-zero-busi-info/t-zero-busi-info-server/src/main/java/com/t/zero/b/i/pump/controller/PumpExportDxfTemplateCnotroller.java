@@ -51,6 +51,7 @@ public class PumpExportDxfTemplateCnotroller extends TZeroBasicController {
 	public ResponseResult<Object> delete(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,
 			@RequestHeader(value = Header.USER_ID) Integer userId, @RequestBody ContentRequest content) {
 		try {
+			System.out.println(content.getContent());
 			return ResponseResult.ok(pumpExportDxfTemplateService.delete(CommonParams.build(tenantId, userId), content.getContent()));
 		} catch (Exception e) {
 			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);

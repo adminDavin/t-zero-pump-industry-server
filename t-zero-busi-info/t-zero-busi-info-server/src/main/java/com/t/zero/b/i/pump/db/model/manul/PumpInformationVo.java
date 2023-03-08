@@ -6,7 +6,6 @@ import org.springframework.beans.BeanUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.t.zero.b.i.pump.db.model.auto.PumpInfo;
 import com.t.zero.b.i.pump.db.model.auto.PumpInformation;
 
 import lombok.extern.log4j.Log4j2;

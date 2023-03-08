@@ -76,6 +76,9 @@
 	    <if test="filters.pumpSource != null">
 	        and o.pump_source=#{filters.pumpSource}
 	    </if>
+	    <if test="filters.pumpName != null">
+	        and o.pump_name=#{filters.pumpName}
+	    </if>
 	    order by updated_time desc
 	    limit #{currentPage}, #{pageSize}
   </select>
@@ -87,6 +90,9 @@
 	    o.is_deleted = 0
 	    <if test="filters.pumpSource != null">
 	        and o.pump_source=#{filters.pumpSource}
+	    </if>
+	    <if test="filters.pumpName != null">
+	        and o.pump_name=#{filters.pumpName}
 	    </if>
   </select>
   

@@ -110,8 +110,27 @@
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
+        <table schema="xinghe" tableName="pump_information_data" domainObjectName="PumpInformationData">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
         
-        
+        <!-- <table schema="xinghe" tableName="archive_information" domainObjectName="ArchiveInformation">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        <table schema="xinghe" tableName="recover_information" domainObjectName="RecoverInformation">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table> -->
+        <table schema="xinghe" tableName="pump_params_definition" domainObjectName="PumpParamsDefinition">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
         
         
     </context>

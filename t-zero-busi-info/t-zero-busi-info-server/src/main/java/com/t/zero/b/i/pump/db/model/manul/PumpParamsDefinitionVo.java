@@ -6,24 +6,32 @@ import org.springframework.beans.BeanUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.t.zero.b.i.pump.db.model.auto.PumpInfo;
+import com.t.zero.b.i.pump.db.model.auto.PumpParamsDefinition;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class PumpInfoVo extends PumpInfo {
+public class PumpParamsDefinitionVo extends PumpParamsDefinition {
 	private static final long serialVersionUID = 1L;
 	private ObjectNode pvJson;
+	
+	public ObjectNode getPvJson() {
+		return pvJson;
+	}
 
-	public PumpInfo convert() {
-		var t = new PumpInfo();
+	public void setPvJson(ObjectNode pvJson) {
+		this.pvJson = pvJson;
+	}
+	
+	public PumpParamsDefinition convert() {
+		var t = new PumpParamsDefinition();
 		BeanUtils.copyProperties(this, t);
 		t.setPvDesc(this.getPvJson().toString());
 		return t;
 	}
 
-	public static PumpInfoVo convert(ObjectMapper mapper, PumpInfo item) {
-		var t = new PumpInfoVo();
+	public static PumpParamsDefinitionVo convert(ObjectMapper mapper, PumpParamsDefinition item) {
+		var t = new PumpParamsDefinitionVo();
 		BeanUtils.copyProperties(item, t);
 		if (StringUtils.isNotBlank(item.getPvDesc())) {
 			try {
@@ -38,11 +46,4 @@ public class PumpInfoVo extends PumpInfo {
 		return t;
 	}
 
-	public ObjectNode getPvJson() {
-		return pvJson;
-	}
-
-	public void setPvJson(ObjectNode pvJson) {
-		this.pvJson = pvJson;
-	}
 }
