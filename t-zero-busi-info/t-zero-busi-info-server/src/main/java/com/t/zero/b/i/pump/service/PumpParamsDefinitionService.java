@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,17 @@ public class PumpParamsDefinitionService {
 		var data = pumpParamsDefinitionMapper.selectByExampleWithBLOBs(e);
 		return data.stream().map(j -> PumpParamsDefinitionVo.convert(mapper, j)).collect(Collectors.toList());
 	}
+	
+	public List<PumpParamsDefinitionVo> listByLanguage(CommonParams params, ObjectNode content) {
+		var e = new PumpParamsDefinitionExample();
+		var pumpSource = content.get("pumpSource").asText();
+		var pvLanguage = content.get("pvLanguage").asText();
+		e.createCriteria().andPumpSourceEqualTo(pumpSource).andPvLanguageEqualTo(pvLanguage);
+		var data = pumpParamsDefinitionMapper.selectByExampleWithBLOBs(e);
+		return data.stream().map(j -> PumpParamsDefinitionVo.convert(mapper, j)).collect(Collectors.toList());
+	}
+	
+	
 
 	public Object createOrModify(CommonParams params, ObjectNode content) {
 		var t = mapper.convertValue(content, PumpParamsDefinitionVo.class).convert();
@@ -40,23 +50,21 @@ public class PumpParamsDefinitionService {
 		t.setUpdatedUserId(params.getUserId());
 		t.setDeletedFlag(TZeroConstants.NORMAL);
 
-		if (ObjectUtils.isNotEmpty(t.getId())) {
 			var e = new PumpParamsDefinitionExample();
 			e.createCriteria().andPvKeyEqualTo(t.getPvKey()).andPumpSourceEqualTo(t.getPumpSource())
 					.andPvLanguageEqualTo(t.getPvLanguage());
 			var items = pumpParamsDefinitionMapper.selectByExample(e);
 			if (CollectionUtils.isNotEmpty(items)) {
 				t.setId(items.get(0).getId());
+				pumpParamsDefinitionMapper.updateByPrimaryKeySelective(t);
+				return t.getId();
+			} else {
+				t.setCreatedUserId(params.getUserId());
+				t.setPvCode(UUIDUtils.getUUID());
+				t.setCreatedTime(LocalDateTime.now());
+				pumpParamsDefinitionMapper.insert(t);
+				return t.getId();
 			}
-			pumpParamsDefinitionMapper.updateByPrimaryKeySelective(t);
-			return t.getId();
-		} else {
-			t.setCreatedUserId(params.getUserId());
-			t.setPvCode(UUIDUtils.getUUID());
-			t.setCreatedTime(LocalDateTime.now());
-			pumpParamsDefinitionMapper.insert(t);
-			return t.getId();
-		}
 	}
 
 	public Object delete(CommonParams params, ObjectNode content) {

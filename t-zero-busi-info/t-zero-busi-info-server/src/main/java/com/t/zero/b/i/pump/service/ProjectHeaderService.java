@@ -2,9 +2,11 @@ package com.t.zero.b.i.pump.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
+import org.apache.dubbo.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,10 +86,12 @@ public class ProjectHeaderService {
 			projectHeaderMapper.updateByPrimaryKeySelective(t);
 			return t.getId();
 		} else {
-			t.setCreatedTime(LocalDateTime.now());
-			t.setBudgetnumber(String.valueOf(t.getGroupId()));
+			if (StringUtils.isBlank(t.getBudgetnumber())) {
+				t.setBudgetnumber(DateTimeFormatter.BASIC_ISO_DATE.format(LocalDateTime.now()));
+			}
+ 			t.setCreatedTime(LocalDateTime.now());
 			projectHeaderMapper.insert(t);
-			t.setBudgetnumber(String.valueOf(t.getGroupId()) + "_" + String.valueOf(t.getId()));
+			t.setBudgetnumber(t.getBudgetnumber() + "_" + String.valueOf(t.getId()));
 			projectHeaderMapper.updateByPrimaryKeySelective(t);
 			return t.getId();
 		}

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.t.zero.b.i.pump.service.PumpParamsDefinitionService;
+import com.t.zero.b.i.pump.service.PumpArchitectureInfoService;
 import com.t.zero.basic.common.base.contants.RequestConstants;
 import com.t.zero.basic.common.base.contants.RequestConstants.Header;
 import com.t.zero.basic.common.base.controller.TZeroBasicController;
@@ -18,36 +18,30 @@ import com.t.zero.basic.common.base.response.ResponseResult;
 import com.t.zero.basic.component.response.ResponseExceptionHandler;
 
 @RestController
-@RequestMapping("/pump_params_definition")
-public class PumpParamsDefinitionController extends TZeroBasicController {
+@RequestMapping("/pump_architecture_info")
+public class PumpArchitectureInfoCnotroller extends TZeroBasicController {
+	private final PumpArchitectureInfoService pumpAttributesService;
 
-	private final PumpParamsDefinitionService pumpParamsDefinitionService;
-
-	public PumpParamsDefinitionController(ResponseExceptionHandler responseExceptionHandler,
-			PumpParamsDefinitionService pumpParamsDefinitionService) {
+	public PumpArchitectureInfoCnotroller(ResponseExceptionHandler responseExceptionHandler, PumpArchitectureInfoService pumpAttributesService) {
 		super(responseExceptionHandler);
-		this.pumpParamsDefinitionService = pumpParamsDefinitionService;
+		this.pumpAttributesService = pumpAttributesService;
 	}
 
 	@PostMapping(value = "/list", produces = RequestConstants.CONTENT_TYPE_JSON)
 	public ResponseResult<Object> list(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,
 			@RequestHeader(value = Header.USER_ID) Integer userId, @RequestBody ContentRequest content) {
 		try {
-			return ResponseResult
-					.ok(pumpParamsDefinitionService.list(CommonParams.build(tenantId, userId), content.getContent()));
+			return ResponseResult.ok(pumpAttributesService.list(CommonParams.build(tenantId, userId), content.getContent()));
 		} catch (Exception e) {
 			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
 		}
 	}
 	
-	
-
 	@PostMapping(value = "/createOrModify", produces = RequestConstants.CONTENT_TYPE_JSON)
 	public ResponseResult<Object> modify(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,
 			@RequestHeader(value = Header.USER_ID) Integer userId, @RequestBody ContentRequest content) {
 		try {
-			return ResponseResult.ok(pumpParamsDefinitionService.createOrModify(CommonParams.build(tenantId, userId),
-					content.getContent()));
+			return ResponseResult.ok(pumpAttributesService.createOrModify(CommonParams.build(tenantId, userId), content.getContent()));
 		} catch (Exception e) {
 			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
 		}
@@ -57,11 +51,9 @@ public class PumpParamsDefinitionController extends TZeroBasicController {
 	public ResponseResult<Object> delete(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,
 			@RequestHeader(value = Header.USER_ID) Integer userId, @RequestBody ContentRequest content) {
 		try {
-			return ResponseResult
-					.ok(pumpParamsDefinitionService.delete(CommonParams.build(tenantId, userId), content.getContent()));
+			return ResponseResult.ok(pumpAttributesService.delete(CommonParams.build(tenantId, userId), content.getContent()));
 		} catch (Exception e) {
 			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
 		}
 	}
-
 }
