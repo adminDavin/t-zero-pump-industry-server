@@ -38,6 +38,17 @@ public class ProjectInfoController extends TZeroBasicController {
 			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
 		}
 	}
+	
+	@PostMapping(value = "/pump_param_def", produces = RequestConstants.CONTENT_TYPE_JSON)
+	public ResponseResult<Object> getPumpParamDef(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,
+			@RequestHeader(value = Header.USER_ID) Integer userId, @RequestBody ContentRequest content) {
+		try {
+			return ResponseResult
+					.ok(projectInfoService.getPumpParamDef(CommonParams.build(tenantId, userId), content.getContent()));
+		} catch (Exception e) {
+			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
+		}
+	}
 
 	@PostMapping(value = "/createOrModify", produces = RequestConstants.CONTENT_TYPE_JSON)
 	public ResponseResult<Object> modify(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,

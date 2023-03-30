@@ -136,6 +136,12 @@
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
+        <table schema="xinghe" tableName="pump_interactive_field_config" domainObjectName="PumpInteractiveFieldConfig">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="mysql" identity="true" />
+            <columnOverride column="is_deleted" property='deletedFlag' />
+        </table>
+        
         
         
     </context>

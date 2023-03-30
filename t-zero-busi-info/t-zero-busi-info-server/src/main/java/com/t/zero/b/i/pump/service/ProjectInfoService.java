@@ -3,6 +3,7 @@ package com.t.zero.b.i.pump.service;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import com.t.zero.b.i.pump.db.model.auto.ProjectInfo;
 import com.t.zero.b.i.pump.db.model.auto.ProjectInfoExample;
 import com.t.zero.b.i.pump.db.model.auto.Units;
 import com.t.zero.b.i.pump.db.model.auto.UnitsExample;
+import com.t.zero.b.i.pump.helper.ProjectInfoHelper;
+import com.t.zero.b.i.pump.helper.PumpArchitectureInfoHelper;
 import com.t.zero.basic.common.base.contants.TZeroConstants;
 import com.t.zero.basic.common.base.request.CommonParams;
 
@@ -26,8 +29,15 @@ public class ProjectInfoService {
 
 	@Autowired
 	public UnitsMapper unitsMapper;
+	
 	@Autowired
 	public ProjectInfoMapper projectInfoMapper;
+	
+	@Autowired
+	public PumpArchitectureInfoHelper pumpArchitectureInfoHelper;
+	
+	@Autowired
+	public ProjectInfoHelper projectInfoHelper;
 	
 
 	public Object list(CommonParams params, ObjectNode content) {
@@ -45,6 +55,15 @@ public class ProjectInfoService {
 			projectInfoMapper.insert(t);
 			return t.getId();
 		} else {
+			var tt = projectInfoMapper.selectByPrimaryKey(t.getId());
+			if (!StringUtils.equals(t.getLevelMoter(), tt.getLevelMoter())) {
+				var pumpSource = content.get("pumpSource").asText();
+				var modelMotor = pumpArchitectureInfoHelper.getModelMotor(t.getRotation(), t.getLevelMoter(), pumpSource);
+				if (StringUtils.isNotBlank(modelMotor)) {
+					t.setModelMotor(modelMotor);
+					t.setExplosionProof(modelMotor);
+				}
+			}
 			projectInfoMapper.updateByPrimaryKeySelective(t);
 			return t.getId();
 		}
@@ -85,6 +104,14 @@ public class ProjectInfoService {
 		} else {
 			return chek.get(0);
 		}
+	}
+
+
+	public Object getPumpParamDef(CommonParams build, ObjectNode content) {
+		var pumpSource = content.get("pumpSource").asText();
+		var pvLanguage = content.get("pvLanguage").asText();
+		var projectnumber = content.get("projectnumber").asText();
+		return projectInfoHelper.getPumpParamDef(pumpSource, pvLanguage, projectnumber);
 	}
 
 }
