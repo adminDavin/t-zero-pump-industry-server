@@ -71,7 +71,7 @@ public class ProjectHeaderService {
 		return page;
 	}
 
-	public Object createOrModify(CommonParams params, ObjectNode content) {
+	public Integer createOrModify(CommonParams params, ObjectNode content) {
 		var t = mapper.convertValue(content, ProjectHeader.class);
 		t.setUpdatedTime(LocalDateTime.now());
 		t.setTenantId(params.getTenantId());
@@ -86,13 +86,16 @@ public class ProjectHeaderService {
 			projectHeaderMapper.updateByPrimaryKeySelective(t);
 			return t.getId();
 		} else {
+			t.setCreatedTime(LocalDateTime.now());
 			if (StringUtils.isBlank(t.getBudgetnumber())) {
 				t.setBudgetnumber(DateTimeFormatter.BASIC_ISO_DATE.format(LocalDateTime.now()));
+				projectHeaderMapper.insert(t);
+				t.setBudgetnumber(t.getBudgetnumber() + "_" + String.valueOf(t.getId()));
+				projectHeaderMapper.updateByPrimaryKeySelective(t);
+			}else {
+				projectHeaderMapper.insert(t);
 			}
- 			t.setCreatedTime(LocalDateTime.now());
-			projectHeaderMapper.insert(t);
-			t.setBudgetnumber(t.getBudgetnumber() + "_" + String.valueOf(t.getId()));
-			projectHeaderMapper.updateByPrimaryKeySelective(t);
+ 			
 			return t.getId();
 		}
 	}

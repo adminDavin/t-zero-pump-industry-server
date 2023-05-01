@@ -2,9 +2,11 @@ package com.t.zero.b.i.pump.service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.dubbo.common.utils.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,25 +30,24 @@ public class PumpInformationService {
 
 	@Autowired
 	public PumpInformationMapper pumpInformationMapper;
-	
+
 	@Autowired
 	public ManualPumpInformationMapper manualPumpInformationMapper;
 
 	public Page<PumpInformationVo> list(CommonParams params, ObjectNode content) {
-		Page<PumpInformationVo> page = Page.build(CommonUtils.getCurrentPage(content), CommonUtils.getPageSize(content));
+		Page<PumpInformationVo> page = Page.build(CommonUtils.getCurrentPage(content),
+				CommonUtils.getPageSize(content));
 		var i = mapper.convertValue(content, PumpInformationFilters.class);
 		var data = manualPumpInformationMapper.selectListWithPageByFilter(i, page.getOffset(), page.getPageSize());
 		page.setList(data.stream().map(j -> PumpInformationVo.convert(mapper, j)).collect(Collectors.toList()));
 		page.setTotalCount(manualPumpInformationMapper.selectCountWithPageByFilter(i));
 		return page;
 	}
-	
 
 	public Object get(CommonParams build, ObjectNode content) {
 		return PumpInformationVo.convert(mapper, pumpInformationMapper.selectByPrimaryKey(content.get("id").asInt()));
 	}
-	
-	
+
 	public Object createOrModify(CommonParams params, ObjectNode content) {
 		var t = mapper.convertValue(content, PumpInformationVo.class).convert();
 		t.setUpdatedTime(LocalDateTime.now());
@@ -70,7 +71,10 @@ public class PumpInformationService {
 	}
 
 	public Object delete(CommonParams params, ObjectNode content) {
-		var ids = Arrays.asList(mapper.convertValue(content.get("ids"), Integer[].class));
+		List<Integer> ids = Arrays.asList(mapper.convertValue(content.get("ids"), Integer[].class));
+		if (CollectionUtils.isEmpty(ids)) {
+			return mapper.createObjectNode();
+		}
 		var e = new PumpInformationExample();
 		e.createCriteria().andIdIn(ids);
 		pumpInformationMapper.deleteByExample(e);

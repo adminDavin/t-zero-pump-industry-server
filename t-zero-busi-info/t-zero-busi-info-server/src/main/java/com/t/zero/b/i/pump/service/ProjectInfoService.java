@@ -1,6 +1,7 @@
 package com.t.zero.b.i.pump.service;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,10 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.t.zero.b.i.pump.db.dao.auto.ProjectInfoMapper;
 import com.t.zero.b.i.pump.db.dao.auto.UnitsMapper;
-import com.t.zero.b.i.pump.db.model.auto.ProjectInfo;
 import com.t.zero.b.i.pump.db.model.auto.ProjectInfoExample;
 import com.t.zero.b.i.pump.db.model.auto.Units;
 import com.t.zero.b.i.pump.db.model.auto.UnitsExample;
+import com.t.zero.b.i.pump.db.model.manul.ProjectInfoVo;
 import com.t.zero.b.i.pump.helper.ProjectInfoHelper;
 import com.t.zero.b.i.pump.helper.PumpArchitectureInfoHelper;
 import com.t.zero.basic.common.base.contants.TZeroConstants;
@@ -43,12 +44,15 @@ public class ProjectInfoService {
 	public Object list(CommonParams params, ObjectNode content) {
 		var example = new ProjectInfoExample();
 		example.createCriteria().andProjectnumberIdEqualTo(content.get("projectnumber").asInt());
-		return projectInfoMapper.selectByExample(example);
+		return projectInfoMapper.selectByExampleWithBLOBs(example).stream().map(i -> ProjectInfoVo.convert(mapper, i)).collect(Collectors.toList());
 	}
 
 
 	public Object createOrModify(CommonParams params, ObjectNode content) {
-		var t = mapper.convertValue(content, ProjectInfo.class);
+		var ttt = mapper.convertValue(content, ProjectInfoVo.class);
+		
+		var t = ttt.convert();
+		t.setPvDesc(ttt.getPvJson().toString());
 		t.setUpdatedTime(LocalDateTime.now());
 		t.setDeletedFlag(TZeroConstants.NORMAL);
 		if (ObjectUtils.isEmpty(t.getId())) {

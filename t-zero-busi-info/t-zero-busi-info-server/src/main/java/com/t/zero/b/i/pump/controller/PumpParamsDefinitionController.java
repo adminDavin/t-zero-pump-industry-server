@@ -40,6 +40,16 @@ public class PumpParamsDefinitionController extends TZeroBasicController {
 		}
 	}
 	
+	@PostMapping(value = "/update_template_position", produces = RequestConstants.CONTENT_TYPE_JSON)
+	public ResponseResult<Object> updateTemplatePosition(@RequestHeader(value = Header.TENANT_ID) Integer tenantId,
+			@RequestHeader(value = Header.USER_ID) Integer userId, @RequestBody ContentRequest content) {
+		try {
+			return ResponseResult
+					.ok(pumpParamsDefinitionService.updateTemplatePosition(CommonParams.build(tenantId, userId), content.getContent()));
+		} catch (Exception e) {
+			return responseExceptionHandler.handle(String.format("ResInfoDefController", LIST), e);
+		}
+	}
 	
 
 	@PostMapping(value = "/createOrModify", produces = RequestConstants.CONTENT_TYPE_JSON)
