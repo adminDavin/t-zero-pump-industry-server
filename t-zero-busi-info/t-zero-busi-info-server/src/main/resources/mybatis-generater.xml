@@ -141,7 +141,9 @@
             <generatedKey column="id" sqlStatement="mysql" identity="true" />
             <columnOverride column="is_deleted" property='deletedFlag' />
         </table>
-        
+        <table schema="xinghe" tableName="info_total_cache" domainObjectName="InfoTotalCache">
+            <property name="useActualColumnNames" value="false" />
+        </table>
         
         
     </context>
